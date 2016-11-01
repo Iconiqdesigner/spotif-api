@@ -64,7 +64,7 @@ function playPauseTrack() {
     }
   });
 
-  $('#results').unbind('click').on('click', '.cover button.pause', function(event) {
+  $('#results').on('click', '.cover button.pause', function(event) {
     var $albumCover = $(this).closest('.cover');
     event.stopPropagation();
     event.preventDefault();
@@ -76,7 +76,7 @@ function playPauseTrack() {
 }
 
 function stopTrack() {
-  $('#results').unbind('click').on('click', '.cover button.stop', function(event) {
+  $('#results').on('click', '.cover button.stop', function(event) {
     var $albumCover = $(this).closest('.cover');
     $albumCover.removeClass(playingCssClass);
     $albumCover.removeClass('paused');
@@ -109,37 +109,18 @@ var searchAlbums = function (query) {
 };
 
 function addAlbumPreview(){
-    $(".cover").unbind('click').on('click', function (e) {
+    $(".cover").on('click', function (e) {
         var target = e.target;
         if ($(this).siblings().hasClass(playingCssClass) === false ) {
-          console.log("line 50");
           if (target !== null && target.classList.contains('cover')) {
-              console.log("line 52");
               if (target.classList.contains(playingCssClass)) {
                 if (target.classList.contains("paused")) {
                   audioObject.play();
                   target.classList.remove("paused")
                 } else {
-                  console.log("pause");
                   audioObject.pause();
                   target.classList.add("paused")
                 }
-              } else {
-                  console.log("line 57");
-                  // fetchTracks(target.getAttribute('data-album-id'), function (data) {
-                  //     console.log("line 59");
-                  //     audioObject = new Audio(data.tracks.items[0].preview_url);
-                  //     audioObject.play();
-                  //     target.classList.add(playingCssClass);
-                  //     audioObject.addEventListener('ended', function () {
-                  //         target.classList.remove(playingCssClass);
-                  //     });
-                  //     audioObject.addEventListener('pause', function () {
-                  //         // target.classList.remove(playingCssClass);
-                  //
-                  //     });
-                  // });
-              }
           }
         }
     });
