@@ -63,7 +63,8 @@ function playPauseTrack() {
       }
     }
   });
-  $('#results').on('click', '.cover button.pause', function(event) {
+
+  $('#results').unbind('click').on('click', '.cover button.pause', function(event) {
     var $albumCover = $(this).closest('.cover');
     event.stopPropagation();
     event.preventDefault();
@@ -75,7 +76,7 @@ function playPauseTrack() {
 }
 
 function stopTrack() {
-  $('#results').on('click', '.cover button.stop', function(event) {
+  $('#results').unbind('click').on('click', '.cover button.stop', function(event) {
     var $albumCover = $(this).closest('.cover');
     $albumCover.removeClass(playingCssClass);
     $albumCover.removeClass('paused');
@@ -108,7 +109,7 @@ var searchAlbums = function (query) {
 };
 
 function addAlbumPreview(){
-    $(".cover").on('click', function (e) {
+    $(".cover").unbind('click').on('click', function (e) {
         var target = e.target;
         if ($(this).siblings().hasClass(playingCssClass) === false ) {
           console.log("line 50");
