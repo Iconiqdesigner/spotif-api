@@ -70,6 +70,7 @@ function playPauseTrack() {
     $(this).addClass('play');
     $(this).removeClass('pause');
     audioObject.pause();
+    $albumCover.toggleClass('paused');
   });
 }
 
@@ -77,6 +78,7 @@ function stopTrack() {
   $('#results').on('click', '.cover button.stop', function(event) {
     var $albumCover = $(this).closest('.cover');
     $albumCover.removeClass(playingCssClass);
+    $albumCover.removeClass('paused');
     event.stopPropagation();
     event.preventDefault();
     audioObject.pause();
