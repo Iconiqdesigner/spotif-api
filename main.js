@@ -12,22 +12,22 @@ var resultsPlaceholder = $('#results'),
 */
 
 var fetchTracks = function (albumId, callback) {
-    // write your AJAX request here
-    $.ajax({
-        url: 'https://api.spotify.com/v1/albums/' + albumId,
-        success: callback
-    });
+  // write your AJAX request here
+  $.ajax({
+    url: 'https://api.spotify.com/v1/albums/' + albumId,
+    success: callback
+  });
 };
 
 var addAlbumsToPage = function (albums) {
-    albumCoversHtml = "";
-    albums.items.forEach(function(album){
-      albumCoversHtml += '<div style="background-image:url('+ album.images[0].url +')" data-album-id="'+ album.id +'" class="cover">' +
-                          '<button class="song-action play" onclick="playPauseTrack"></button>' +
-                          '<button class="song-action stop" onclick="stopTrack"></button>' +
-                          '</div>';
-    })
-    resultsPlaceholder.prepend(albumCoversHtml);
+  albumCoversHtml = "";
+  albums.items.forEach(function(album){
+    albumCoversHtml += '<div style="background-image:url('+ album.images[0].url +')" data-album-id="'+ album.id +'" class="cover">' +
+                        '<button class="song-action play" onclick="playPauseTrack"></button>' +
+                        '<button class="song-action stop" onclick="stopTrack"></button>' +
+                        '</div>';
+  })
+  resultsPlaceholder.prepend(albumCoversHtml);
 }
 
 
@@ -38,32 +38,31 @@ function playPauseTrack() {
     $(this).addClass('pause');
     event.stopPropagation();
     event.preventDefault();
-    console.log("this should only happen once");
     // CHECK TO SEE IF THE ALBUMCOVER HAS THE CLASS OF 'PLAYING'
     if (($albumCover.hasClass(playingCssClass) === false) && ($albumCover.siblings().hasClass(playingCssClass) === false) ) {
-        $albumCover.siblings().addClass('unavailable');
-        fetchTracks($albumCover.data('album-id'), function (data) {
-            audioObject = new Audio(data.tracks.items[0].preview_url);
-            audioObject.play();
-            $albumCover.addClass(playingCssClass);
-            audioObject.addEventListener('ended', function () {
-                $albumCover.removeClass(playingCssClass);
-                $albumCover.find('button.pause').addClass('play');
-                $albumCover.find('button.pause').removeClass('pause');
-                $albumCover.siblings().removeClass('unavailable');
-            });
-            audioObject.addEventListener('pause', function () {
-                $(this).toggleClass('play');
-                $(this).toggleClass('pause');
-            });
+      $albumCover.siblings().addClass('unavailable');
+      fetchTracks($albumCover.data('album-id'), function (data) {
+        audioObject = new Audio(data.tracks.items[0].preview_url);
+        audioObject.play();
+        $albumCover.addClass(playingCssClass);
+        audioObject.addEventListener('ended', function () {
+          $albumCover.removeClass(playingCssClass);
+          $albumCover.find('button.pause').addClass('play');
+          $albumCover.find('button.pause').removeClass('pause');
+          $albumCover.siblings().removeClass('unavailable');
         });
+        audioObject.addEventListener('pause', function () {
+            $(this).toggleClass('play');
+            $(this).toggleClass('pause');
+        });
+      });
     } else {
       if(audioObject) {
         audioObject.play();
+        $albumCover.removeClass("paused");
       }
     }
   });
-
   $('#results').on('click', '.cover button.pause', function(event) {
     var $albumCover = $(this).closest('.cover');
     event.stopPropagation();
@@ -93,37 +92,38 @@ function stopTrack() {
 }
 
 var searchAlbums = function (query) {
-    $.ajax({
-        url: 'https://api.spotify.com/v1/search',
-        data: {
-            q: query,
-            type: 'album'
-        },
-        success: function (response) {
-            playPauseTrack();
-            stopTrack();
-            addAlbumsToPage(response.albums);
-            addAlbumPreview();
-        }
-    });
+  $.ajax({
+    url: 'https://api.spotify.com/v1/search',
+    data: {
+      q: query,
+      type: 'album'
+    },
+    success: function (response) {
+      playPauseTrack();
+      stopTrack();
+      addAlbumsToPage(response.albums);
+      addAlbumPreview();
+    }
+  });
 };
 
 function addAlbumPreview(){
-    $(".cover").on('click', function (e) {
-        var target = e.target;
-        if ($(this).siblings().hasClass(playingCssClass) === false ) {
-          if (target !== null && target.classList.contains('cover')) {
-              if (target.classList.contains(playingCssClass)) {
-                if (target.classList.contains("paused")) {
-                  audioObject.play();
-                  target.classList.remove("paused")
-                } else {
-                  audioObject.pause();
-                  target.classList.add("paused")
-                }
+  $(".cover").on('click', function (e) {
+      var target = e.target;
+      if ($(this).siblings().hasClass(playingCssClass) === false ) {
+        if (target !== null && target.classList.contains('cover')) {
+          if (target.classList.contains(playingCssClass)) {
+            if (target.classList.contains("paused")) {
+              audioObject.play();
+              target.classList.remove("paused")
+            } else {
+              audioObject.pause();
+              target.classList.add("paused")
+            }
           }
         }
-    });
+      }
+  });
 };
 
 $('#search-form').on('submit', function (e) {
