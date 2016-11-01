@@ -1,0 +1,86 @@
+body {
+    padding: 20px;
+}
+#search-form, .form-control {
+    margin-bottom: 20px;
+}
+.cover {
+    width: 300px;
+    height: 300px;
+    display: inline-block;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border: 5px solid transparent;
+    margin: 5px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.song-action {
+  position: absolute;
+  border: 0;
+  width: 55px;
+  height: 55px;
+  background: rgba(0,0,0,0.4) url("i/pause.svg") center no-repeat;
+  background-size: 45px;
+  display: block;
+  opacity: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 2;
+  margin: auto;
+  transform: translate(0, 0);
+  transition: opacity 0.5s, transform 0.5s;
+}
+
+.cover.playing .song-action.pause, .cover.playing .song-action.play {
+  transform: translate(-35px, 0);
+}
+
+.song-action.stop {
+  background-image: url("i/stop.svg");
+  z-index: 1;
+}
+.cover.playing .song-action.stop {
+  transform: translate(35px, 0);
+}
+.song-action.play {
+  background-image: url("i/play.svg");
+}
+
+.cover:hover .song-action.play {
+  opacity: 1;
+}
+
+.cover.unavailable {
+  opacity: 0.35;
+}
+
+.cover.unavailable:hover {
+  cursor: default;
+}
+
+.cover.unavailable:hover .song-action {
+  display: none;
+  opacity: 0;
+}
+
+.song-action.pause {
+}
+
+.cover:hover {
+    cursor: pointer;
+}
+.cover.playing {
+    border-color: #2ecc71;
+}
+
+.cover.playing .song-action {
+  display: block;
+  opacity: 1
+}
+.cover.paused {
+    border-color: #f1c40f;
+}
