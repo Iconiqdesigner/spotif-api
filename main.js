@@ -41,6 +41,7 @@ function playPauseTrack() {
     // CHECK TO SEE IF THE ALBUMCOVER HAS THE CLASS OF 'PLAYING'
     if (($albumCover.hasClass(playingCssClass) === false) && ($albumCover.siblings().hasClass(playingCssClass) === false) ) {
       $albumCover.siblings().addClass('unavailable');
+      debugger;
       fetchTracks($albumCover.data('album-id'), function (data) {
         audioObject = new Audio(data.tracks.items[0].preview_url);
         audioObject.play();

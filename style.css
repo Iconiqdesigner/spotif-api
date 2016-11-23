@@ -1,17 +1,27 @@
+html {
+  background: black;
+}
 body {
     padding: 20px;
+    color: rgb(230,230,230);
+    font-family: 'Convergence', sans-serif;
 }
-#search-form, .form-control {
-    margin-bottom: 20px;
+#results {
+  width: 90%;
+  margin: auto;
+  clear: both;
+  margin-top: 100px;
 }
+
 .cover {
-    width: 300px;
-    height: 300px;
-    display: inline-block;
+    width: calc(100% / 3);
+    padding-top: calc(33.3333333333% - 5px);
+    display: block;
+    float: left;
     background-size: cover;
     background-repeat: no-repeat;
-    border: 5px solid transparent;
-    margin: 5px;
+    box-shadow: 0 0 5px 0 inset transparent;
+    /*border: 5px solid transparent;*/
     box-sizing: border-box;
     position: relative;
 }
@@ -74,7 +84,7 @@ body {
     cursor: pointer;
 }
 .cover.playing {
-    border-color: #2ecc71;
+  box-shadow: inset 0 0 0 5px #2ecc71;
 }
 
 .cover.playing .song-action {
@@ -82,5 +92,51 @@ body {
   opacity: 1
 }
 .cover.paused {
-    border-color: #f1c40f;
+  box-shadow: inset 0 0 0 5px #f1c40f;
+}
+
+.clearfix::after {
+  content: '';
+  display: block;
+  height: 0;
+  clear: both;
+}
+
+/* FORM ELEMENTS */
+.single-field-form {
+  width: 90%;
+  margin: auto;
+  position: relative;
+}
+
+.single-field-form input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 60px;
+  width: calc(100% - 180px);
+  border: 0;
+  font-size: 21px;
+  line-height: 60px;
+  padding: 0 160px 0 20px;
+  border-radius: 4px;
+  font-family: 'Convergence', sans-serif;
+}
+.single-field-form input[type="submit"] {
+  left: auto;
+  right: 0;
+  width: auto;
+  padding: 0 20px;
+  border-radius: 0 4px 4px 0;
+  color: white;
+  background: #2ecc71;
+
+}
+
+@media screen and (max-width: 1024px) {
+  .cover { width: 50%; }
+}
+
+@media screen and (max-width: 600px) {
+  .cover { width: 100%; }
 }
